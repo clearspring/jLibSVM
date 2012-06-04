@@ -9,7 +9,7 @@ public class SVMModel implements java.io.Serializable
 	public SVMParams param;	// parameter
 	public int nr_class;		// number of classes, = 2 in regression/one class svm
 	public int l;			// total #SV
-	public SVMNode[][] SV;	// SVs (SV[l])
+	public FeatureNode[][] SV;	// SVs (SV[l])
 	public double[][] sv_coef;	// coefficients for SVs in decision functions (sv_coef[k-1][l])
 	public double[] rho;		// constants in decision functions (rho[k*(k-1)/2])
 	public double[] probA;         // pariwise probability information

@@ -15,8 +15,8 @@ import libsvm.svm.kernel.SVC_Q;
 import libsvm.svm.kernel.SVR_Q;
 import libsvm.svm.kernel.solver.Solver;
 import libsvm.svm.kernel.solver.Solver_NU;
+import libsvm.svm.model.FeatureNode;
 import libsvm.svm.model.SVMModel;
-import libsvm.svm.model.SVMNode;
 import libsvm.svm.model.SVMParams;
 import libsvm.svm.model.SVMPrintInterface;
 import libsvm.svm.model.SVNProblem;
@@ -510,7 +510,7 @@ public class SVMEngine
 			SVNProblem subprob = new SVNProblem();
 
 			subprob.l = prob.l - (end - begin);
-			subprob.x = new SVMNode[subprob.l][];
+			subprob.x = new FeatureNode[subprob.l][];
 			subprob.y = new double[subprob.l];
 
 			k = 0;
@@ -700,7 +700,7 @@ public class SVMEngine
 				if (Math.abs(f.alpha[i]) > 0)
 					++nSV;
 			model.l = nSV;
-			model.SV = new SVMNode[nSV][];
+			model.SV = new FeatureNode[nSV][];
 			model.sv_coef[0] = new double[nSV];
 			int j = 0;
 			for (i = 0; i < prob.l; i++)
@@ -731,7 +731,7 @@ public class SVMEngine
 			if (nr_class == 1)
 				info("WARNING: training data in only one class. See README for details.\n");
 
-			SVMNode[][] x = new SVMNode[l][];
+			FeatureNode[][] x = new FeatureNode[l][];
 			int i;
 			for (i = 0; i < l; i++)
 				x[i] = prob.x[perm[i]];
@@ -778,7 +778,7 @@ public class SVMEngine
 					int si = start[i], sj = start[j];
 					int ci = count[i], cj = count[j];
 					sub_prob.l = ci + cj;
-					sub_prob.x = new SVMNode[sub_prob.l][];
+					sub_prob.x = new FeatureNode[sub_prob.l][];
 					sub_prob.y = new double[sub_prob.l];
 					int k;
 					for (k = 0; k < ci; k++)
@@ -859,7 +859,7 @@ public class SVMEngine
 			info("Total nSV = " + nnz + "\n");
 
 			model.l = nnz;
-			model.SV = new SVMNode[nnz][];
+			model.SV = new FeatureNode[nnz][];
 			p = 0;
 			for (i = 0; i < l; i++)
 				if (nonzero[i])
@@ -995,7 +995,7 @@ public class SVMEngine
 			SVNProblem subprob = new SVNProblem();
 
 			subprob.l = l - (end - begin);
-			subprob.x = new SVMNode[subprob.l][];
+			subprob.x = new FeatureNode[subprob.l][];
 			subprob.y = new double[subprob.l];
 
 			k = 0;
@@ -1055,7 +1055,7 @@ public class SVMEngine
 		}
 	}
 
-	public double svm_predict_values(SVMModel model, SVMNode[] x,
+	public double svm_predict_values(SVMModel model, FeatureNode[] x,
 			double[] dec_values)
 	{
 		int i;
@@ -1129,7 +1129,7 @@ public class SVMEngine
 		}
 	}
 
-	public double svm_predict(SVMModel model, SVMNode[] x)
+	public double svm_predict(SVMModel model, FeatureNode[] x)
 	{
 		int nr_class = model.nr_class;
 		double[] dec_values;
@@ -1143,7 +1143,7 @@ public class SVMEngine
 		return pred_result;
 	}
 
-	public double svm_predict_probability(SVMModel model, SVMNode[] x,
+	public double svm_predict_probability(SVMModel model, FeatureNode[] x,
 			double[] prob_estimates)
 	{
 		if ((model.param.svm_type == SVMParams.C_SVC || model.param.svm_type == SVMParams.NU_SVC)
@@ -1253,14 +1253,14 @@ public class SVMEngine
 
 		fp.writeBytes("SV\n");
 		double[][] sv_coef = model.sv_coef;
-		SVMNode[][] SV = model.SV;
+		FeatureNode[][] SV = model.SV;
 
 		for (int i = 0; i < l; i++)
 		{
 			for (int j = 0; j < nr_class - 1; j++)
 				fp.writeBytes(sv_coef[j][i] + " ");
 
-			SVMNode[] p = SV[i];
+			FeatureNode[] p = SV[i];
 			if (param.kernel_type == SVMParams.PRECOMPUTED)
 				fp.writeBytes("0:" + (int) (p[0].value));
 			else
@@ -1402,7 +1402,7 @@ public class SVMEngine
 		int m = model.nr_class - 1;
 		int l = model.l;
 		model.sv_coef = new double[m][l];
-		model.SV = new SVMNode[l][];
+		model.SV = new FeatureNode[l][];
 
 		for (int i = 0; i < l; i++)
 		{
@@ -1412,10 +1412,10 @@ public class SVMEngine
 			for (int k = 0; k < m; k++)
 				model.sv_coef[k][i] = atof(st.nextToken());
 			int n = st.countTokens() / 2;
-			model.SV[i] = new SVMNode[n];
+			model.SV[i] = new FeatureNode[n];
 			for (int j = 0; j < n; j++)
 			{
-				model.SV[i][j] = new SVMNode();
+				model.SV[i][j] = new FeatureNode();
 				model.SV[i][j].index = atoi(st.nextToken());
 				model.SV[i][j].value = atof(st.nextToken());
 			}

@@ -30,13 +30,14 @@ import java.util.Vector;
 
 import libsvm.model.SVMEngine;
 import libsvm.svm.model.SVMModel;
-import libsvm.svm.model.SVMNode;
+import libsvm.svm.model.FeatureNode;
 import libsvm.svm.model.SVMParams;
 import libsvm.svm.model.SVNProblem;
 
 
 public class SVMToyApp extends Applet {
 
+	private static final long serialVersionUID = -5494006438969346412L;
 	private static SVMEngine svm = new SVMEngine();
 	static final String DEFAULT_PARAM="-t 2 -c 100";
 	int XLEN;
@@ -297,11 +298,11 @@ public class SVMToyApp extends Applet {
 			param.svm_type == SVMParams.NU_SVR)
 		{
 			if(param.gamma == 0) param.gamma = 1;
-			prob.x = new SVMNode[prob.l][1];
+			prob.x = new FeatureNode[prob.l][1];
 			for(int i=0;i<prob.l;i++)
 			{
 				point p = point_list.elementAt(i);
-				prob.x[i][0] = new SVMNode();
+				prob.x[i][0] = new FeatureNode();
 				prob.x[i][0].index = 1;
 				prob.x[i][0].value = p.x;
 				prob.y[i] = p.y;
@@ -309,8 +310,8 @@ public class SVMToyApp extends Applet {
 
 			// build model & classify
 			SVMModel model = svm.svm_train(prob, param);
-			SVMNode[] x = new SVMNode[1];
-			x[0] = new SVMNode();
+			FeatureNode[] x = new FeatureNode[1];
+			x[0] = new FeatureNode();
 			x[0].index = 1;
 			int[] j = new int[XLEN];
 
@@ -356,14 +357,14 @@ public class SVMToyApp extends Applet {
 		else
 		{
 			if(param.gamma == 0) param.gamma = 0.5;
-			prob.x = new SVMNode [prob.l][2];
+			prob.x = new FeatureNode [prob.l][2];
 			for(int i=0;i<prob.l;i++)
 			{
 				point p = point_list.elementAt(i);
-				prob.x[i][0] = new SVMNode();
+				prob.x[i][0] = new FeatureNode();
 				prob.x[i][0].index = 1;
 				prob.x[i][0].value = p.x;
-				prob.x[i][1] = new SVMNode();
+				prob.x[i][1] = new FeatureNode();
 				prob.x[i][1].index = 2;
 				prob.x[i][1].value = p.y;
 				prob.y[i] = p.value;
@@ -371,9 +372,9 @@ public class SVMToyApp extends Applet {
 
 			// build model & classify
 			SVMModel model = svm.svm_train(prob, param);
-			SVMNode[] x = new SVMNode[2];
-			x[0] = new SVMNode();
-			x[1] = new SVMNode();
+			FeatureNode[] x = new FeatureNode[2];
+			x[0] = new FeatureNode();
+			x[1] = new FeatureNode();
 			x[0].index = 1;
 			x[1].index = 2;
 

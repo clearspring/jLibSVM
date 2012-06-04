@@ -1,11 +1,11 @@
 package libsvm.svm.kernel;
 
-import libsvm.svm.model.SVMNode;
+import libsvm.svm.model.FeatureNode;
 import libsvm.svm.model.SVMParams;
 
 
 public abstract class Kernel extends QMatrix {
-	private SVMNode[][] x;
+	private FeatureNode[][] x;
 	private final double[] x_square;
 
 	// SVMParams
@@ -19,7 +19,7 @@ public abstract class Kernel extends QMatrix {
 
 	public void swap_index(int i, int j)
 	{
-		do {SVMNode[] _=x[i]; x[i]=x[j]; x[j]=_;} while(false);
+		do {FeatureNode[] _=x[i]; x[i]=x[j]; x[j]=_;} while(false);
 		if(x_square != null) do {double _=x_square[i]; x_square[i]=x_square[j]; x_square[j]=_;} while(false);
 	}
 
@@ -54,14 +54,14 @@ public abstract class Kernel extends QMatrix {
 		}
 	}
 
-	Kernel(int l, SVMNode[][] x_, SVMParams param)
+	Kernel(int l, FeatureNode[][] x_, SVMParams param)
 	{
 		this.kernel_type = param.kernel_type;
 		this.degree = param.degree;
 		this.gamma = param.gamma;
 		this.coef0 = param.coef0;
 
-		x = (SVMNode[][])x_.clone();
+		x = (FeatureNode[][])x_.clone();
 
 		if(kernel_type == SVMParams.RBF)
 		{
@@ -72,7 +72,7 @@ public abstract class Kernel extends QMatrix {
 		else x_square = null;
 	}
 
-	static double dot(SVMNode[] x, SVMNode[] y)
+	static double dot(FeatureNode[] x, FeatureNode[] y)
 	{
 		double sum = 0;
 		int xlen = x.length;
@@ -94,7 +94,7 @@ public abstract class Kernel extends QMatrix {
 		return sum;
 	}
 
-	public static double k_function(SVMNode[] x, SVMNode[] y,
+	public static double k_function(FeatureNode[] x, FeatureNode[] y,
 					SVMParams param)
 	{
 		switch(param.kernel_type)

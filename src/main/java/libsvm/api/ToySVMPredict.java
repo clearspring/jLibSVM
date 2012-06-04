@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import libsvm.model.SVMEngine;
 import libsvm.svm.model.SVMModel;
-import libsvm.svm.model.SVMNode;
+import libsvm.svm.model.FeatureNode;
 
 public class ToySVMPredict
 {
@@ -20,7 +20,7 @@ public class ToySVMPredict
 		System.out.println("SVM loaded !");
 	}
 
-	public double[] getPredicitionFor(SVMNode[] nodes)
+	public double[] getPredicitionFor(FeatureNode[] nodes)
 	{
 		double[] results = new double[svmModel.nr_class];
 		//svmEngine.svm_predict_probability(svmModel, nodes, results);
@@ -29,9 +29,9 @@ public class ToySVMPredict
 		return results;
 	}
 
-	private void print(SVMNode[] nodes)
+	private void print(FeatureNode[] nodes)
 	{
-		for(SVMNode node : nodes)
+		for(FeatureNode node : nodes)
 			System.out.println(node.getIndex()+":"+node.getValue()+", ");
 		System.out.println();
 	}
@@ -48,11 +48,11 @@ public class ToySVMPredict
 
 		Arrays.sort(indexes);
 		
-		SVMNode[] nodes = new SVMNode[indexes.length];
+		FeatureNode[] nodes = new FeatureNode[indexes.length];
 		
 		for(int i=0; i<indexes.length; i++)
 		{
-			nodes[i] = new SVMNode(indexes[i], 1);
+			nodes[i] = new FeatureNode(indexes[i], 1);
 		}
 		
 		svmPredict.print(nodes);

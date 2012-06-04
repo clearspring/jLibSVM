@@ -1,14 +1,14 @@
 package libsvm.utils;
 
-import libsvm.svm.model.SVMNode;
+import libsvm.svm.model.FeatureNode;
 
 public class Utils
 {
 	
-	public static String prettyPrintNodes(SVMNode[] nodes)
+	public static String prettyPrintNodes(FeatureNode[] nodes)
 	{
 		StringBuffer out = new StringBuffer();
-		for(SVMNode node : nodes)
+		for(FeatureNode node : nodes)
 		{
 			out.append(node.index+",");
 		}

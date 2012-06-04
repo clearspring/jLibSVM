@@ -8,7 +8,7 @@ import java.util.Vector;
 
 import libsvm.model.SVMEngine;
 import libsvm.svm.model.SVMModel;
-import libsvm.svm.model.SVMNode;
+import libsvm.svm.model.FeatureNode;
 import libsvm.svm.model.SVMParams;
 import libsvm.svm.model.SVMPrintInterface;
 import libsvm.svm.model.SVNProblem;
@@ -278,7 +278,7 @@ class SVMTrain
 	{
 		BufferedReader fp = new BufferedReader(new FileReader(input_file_name));
 		Vector<Double> vy = new Vector<Double>();
-		Vector<SVMNode[]> vx = new Vector<SVMNode[]>();
+		Vector<FeatureNode[]> vx = new Vector<FeatureNode[]>();
 		int max_index = 0;
 
 		while(true)
@@ -290,10 +290,10 @@ class SVMTrain
 
 			vy.addElement(atof(st.nextToken()));
 			int m = st.countTokens()/2;
-			SVMNode[] x = new SVMNode[m];
+			FeatureNode[] x = new FeatureNode[m];
 			for(int j=0;j<m;j++)
 			{
-				x[j] = new SVMNode();
+				x[j] = new FeatureNode();
 				x[j].index = atoi(st.nextToken());
 				x[j].value = atof(st.nextToken());
 			}
@@ -303,7 +303,7 @@ class SVMTrain
 
 		prob = new SVNProblem();
 		prob.l = vy.size();
-		prob.x = new SVMNode[prob.l][];
+		prob.x = new FeatureNode[prob.l][];
 		for(int i=0;i<prob.l;i++)
 			prob.x[i] = vx.elementAt(i);
 		prob.y = new double[prob.l];

@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 import libsvm.model.SVMEngine;
 import libsvm.svm.model.SVMModel;
-import libsvm.svm.model.SVMNode;
+import libsvm.svm.model.FeatureNode;
 import libsvm.svm.model.SVMParams;
 import libsvm.utils.Utils;
 
@@ -66,10 +66,10 @@ public class SVMPredict
 
 			double target = atof(st.nextToken());
 			int m = st.countTokens()/2;
-			SVMNode[] x = new SVMNode[m];
+			FeatureNode[] x = new FeatureNode[m];
 			for(int j=0;j<m;j++)
 			{
-				x[j] = new SVMNode();
+				x[j] = new FeatureNode();
 				x[j].index = atoi(st.nextToken());
 				x[j].value = atof(st.nextToken());
 			}
@@ -120,9 +120,9 @@ public class SVMPredict
 				 "% ("+correct+"/"+total+") (classification)\n");
 	}
 
-	private static void print(SVMNode[] nodes)
+	private static void print(FeatureNode[] nodes)
 	{
-		for(SVMNode node : nodes)
+		for(FeatureNode node : nodes)
 			System.out.println(node.getIndex()+":"+node.getValue()+", ");
 		System.out.println();
 	}
